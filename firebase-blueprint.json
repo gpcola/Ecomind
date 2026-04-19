@@ -1,0 +1,63 @@
+{
+  "entities": {
+    "VisitorMemory": {
+      "title": "Visitor Memory",
+      "description": "Persistent memory of themes and patterns for a specific visitor.",
+      "type": "object",
+      "properties": {
+        "visitor_id": { "type": "string" },
+        "long_term_themes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "recurring_patterns": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "emotional_tones": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "double_binds_detected": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "assumptions_noted": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "contextual_motifs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["visitor_id"]
+    },
+    "InteractionLog": {
+      "title": "Interaction Log",
+      "description": "Log of a single interaction for internal persistence.",
+      "type": "object",
+      "properties": {
+        "timestamp": { "type": "string", "format": "date-time" },
+        "visitor_message": { "type": "string" },
+        "agent_response": { "type": "string" },
+        "detected_patterns": { "type": "array", "items": { "type": "string" } },
+        "ecological_reframing": { "type": "string" },
+        "level_of_learning": { "type": "string", "enum": ["Learning I", "Learning II", "Learning III"] },
+        "memory_snapshot": { "$ref": "#/entities/VisitorMemory" }
+      },
+      "required": ["timestamp", "visitor_message", "agent_response"]
+    }
+  },
+  "firestore": {
+    "/visitors/{visitorId}": {
+      "schema": "VisitorMemory",
+      "description": "Collection of visitor perspectives and memories."
+    },
+    "/logs/{logId}": {
+      "schema": "InteractionLog",
+      "description": "Historical log of interactions."
+    }
+  }
+}
